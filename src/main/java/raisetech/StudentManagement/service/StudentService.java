@@ -1,4 +1,4 @@
-package raisetech.StudentManagement.Service;
+package raisetech.StudentManagement.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
