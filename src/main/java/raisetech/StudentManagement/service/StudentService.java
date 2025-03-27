@@ -23,4 +23,9 @@ public class StudentService {
     return repository.searchCourses();
   }
 
+  public void registerStudent(Student student) {
+    repository.registerStudent(student);
+  }
+
+
 }
