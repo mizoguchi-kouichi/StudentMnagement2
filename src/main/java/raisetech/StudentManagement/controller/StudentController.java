@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
+import raisetech.StudentManagement.domain.StudentEnrollment;
 import raisetech.StudentManagement.service.StudentService;
 
 @Controller
@@ -42,16 +43,17 @@ public class StudentController {
 
   @GetMapping("newStudent")
   public String newStudent(Model model) {
-    model.addAttribute("student", new Student());
+    model.addAttribute("studentEnrollment", new StudentEnrollment());
     return "registerStudent";
   }
 
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute Student student, BindingResult result) {
+  public String registerStudent(@ModelAttribute StudentEnrollment studentEnrollment,
+      BindingResult result) {
     if (result.hasErrors()) {
-      return "registerStudent";
+      return "/registerStudent";
     }
-    service.registerStudent(student);
+    //service.registerStudent(student);
     return "redirect:/studentList";
   }
 }

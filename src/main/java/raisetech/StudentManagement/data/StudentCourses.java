@@ -1,8 +1,10 @@
 package raisetech.StudentManagement.data;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Getter
 @Setter
@@ -11,6 +13,12 @@ public class StudentCourses {
   private String id;
   private String studentInformationId;
   private String courseName;
-  private LocalDateTime courseStartDate;
-  private LocalDateTime expectedEndDateOfTheCourse;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate courseStartDate;
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(pattern = "yyyy-MM-dd")
+  private LocalDate expectedEndDateOfTheCourse;
 }
