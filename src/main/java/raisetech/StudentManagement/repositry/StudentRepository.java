@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.repositry;
 
+import java.time.LocalDate;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -20,7 +21,13 @@ public interface StudentRepository {
   @Select("SELECT * from students_courses")
   List<StudentCourses> searchCourses();
 
-  @Insert("INSERT INTO students (id, name, kana, nickname, email, area, age, gender, remark, id_deleted) VALUES (#{id},#{name},#{kana},#{nickname},#{email},#{area},#{age},#{gender},#{remark},#{idDeleted})")
+  @Insert("INSERT INTO students (id, name, kana, nickname, email, area, age, gender, remark, is_deleted) VALUES (#{id},#{name},#{kana},#{nickname},#{email},#{area},#{age},#{gender},#{remark},#{isDeleted})")
   void registerStudent(Student student);
-}
 
+  @Insert(
+      "INSERT INTO students_courses (id, student_id, course_name, course_start_date, expected_end_date_of_the_course) VALUES "
+          + "(#{id}, (SELECT id FROM students WHERE name = #{studentName}), #{courseName}, #{courseStartDate}, #{expectedEndDateOfTheCourse})"
+  )
+  void registerStudentCourse(String id, String studentName, String courseName,
+      LocalDate courseStartDate, LocalDate expectedEndDateOfTheCourse);
+}

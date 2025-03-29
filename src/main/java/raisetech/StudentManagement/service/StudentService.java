@@ -23,8 +23,11 @@ public class StudentService {
     return repository.searchCourses();
   }
 
-  public void registerStudent(Student student) {
+  public void registerStudent(Student student, StudentCourses studentCourses) {
     repository.registerStudent(student);
+    repository.registerStudentCourse(studentCourses.getId(), student.getName(),
+        studentCourses.getCourseName(), studentCourses.getCourseStartDate(),
+        studentCourses.getExpectedEndDateOfTheCourse());
   }
 
 
