@@ -2,6 +2,7 @@ package raisetech.StudentManagement.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,8 +11,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 public class StudentCourses {
 
-  private String id;
-  private String studentInformationId;
+  private String id = UUID.randomUUID().toString();
+  private String studentId;
   private String courseName;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
