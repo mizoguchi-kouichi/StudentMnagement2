@@ -31,7 +31,6 @@ public class StudentController {
   public String getStudent(Model model) {
     List<Student> students = service.getStudents();
     List<StudentCourses> studentCourses = service.getStudentCourses();
-
     model.addAttribute("studentList", converter.convertStudentDetails(students, studentCourses));
     return "studentList";
   }
