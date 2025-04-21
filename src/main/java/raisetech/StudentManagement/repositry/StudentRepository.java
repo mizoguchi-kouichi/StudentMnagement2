@@ -26,8 +26,8 @@ public interface StudentRepository {
 
   @Insert(
       "INSERT INTO students_courses (id, student_id, course_name, course_start_date, expected_end_date_of_the_course) VALUES "
-          + "(#{id}, (SELECT id FROM students WHERE name = #{studentName}), #{courseName}, #{courseStartDate}, #{expectedEndDateOfTheCourse})"
+          + "(#{id},#{studentId}, #{courseName}, #{courseStartDate}, #{expectedEndDateOfTheCourse})"
   )
-  void registerStudentCourse(String id, String studentName, String courseName,
+  void registerStudentCourse(String id, String studentId, String courseName,
       LocalDate courseStartDate, LocalDate expectedEndDateOfTheCourse);
 }

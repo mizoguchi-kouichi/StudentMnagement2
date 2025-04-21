@@ -25,7 +25,7 @@ public class StudentService {
 
   public void registerStudent(Student student, StudentCourses studentCourses) {
     repository.registerStudent(student);
-    repository.registerStudentCourse(studentCourses.getId(), student.getName(),
+    repository.registerStudentCourse(studentCourses.getId(), student.getId(),
         studentCourses.getCourseName(), studentCourses.getCourseStartDate(),
         studentCourses.getExpectedEndDateOfTheCourse());
   }

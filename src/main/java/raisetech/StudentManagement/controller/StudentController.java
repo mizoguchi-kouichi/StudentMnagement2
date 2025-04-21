@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,9 +48,16 @@ public class StudentController {
   }
 
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentEnrollment studentEnrollment,
+  public String registerStudent(@Valid @ModelAttribute StudentEnrollment studentEnrollment,
       BindingResult result) {
     if (result.hasErrors()) {
+      System.out.println("バリデーションエラーあり");
+      result.getFieldErrors().forEach(error -> {
+            System.out.println("エラー項目：" + error.getField());
+            System.out.println("メッセージ：" + error.getDefaultMessage());
+          }
+      );
+
       return "/registerStudent";
     }
     service.registerStudent(studentEnrollment.getStudent(), studentEnrollment.getStudentCourses());
