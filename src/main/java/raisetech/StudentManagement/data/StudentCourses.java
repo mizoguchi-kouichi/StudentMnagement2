@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -14,15 +15,15 @@ public class StudentCourses {
 
   private String id = UUID.randomUUID().toString();
   private String studentId;
-  @NotNull
+  @NotBlank(message = "コース名は必須です。")
   private String courseName;
 
-  @NotNull
+  @NotNull(message = "受講開始日は必須です。")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate courseStartDate;
 
-  @NotNull
+  @NotNull(message = "コース終了予定日は必須です。")
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate expectedEndDateOfTheCourse;
