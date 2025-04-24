@@ -8,10 +8,15 @@ import raisetech.StudentManagement.data.StudentCourses;
 
 @Getter
 @Setter
-public class StudentEnrollment {
+public class StudentForm {
 
   @Valid
   private Student student;
   @Valid
   private StudentCourses studentCourses;
+
+  public StudentForm() {
+    this.student = new Student();
+    this.studentCourses = new StudentCourses();
+  }
 }

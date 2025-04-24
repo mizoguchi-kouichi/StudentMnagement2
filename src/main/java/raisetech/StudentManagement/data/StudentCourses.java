@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Setter
 public class StudentCourses {
 
-  private String id = UUID.randomUUID().toString();
+  private String id;
   private String studentId;
   @NotBlank(message = "コース名は必須です。")
   private String courseName;
@@ -27,4 +26,15 @@ public class StudentCourses {
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate expectedEndDateOfTheCourse;
+
+  public StudentCourses() {
+  }
+
+  public StudentCourses(String id, Student student, StudentCourses studentCourses) {
+    this.id = id;
+    this.studentId = student.getId();
+    this.courseName = studentCourses.getCourseName();
+    this.courseStartDate = studentCourses.getCourseStartDate();
+    this.expectedEndDateOfTheCourse = studentCourses.getExpectedEndDateOfTheCourse();
+  }
 }
