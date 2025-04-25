@@ -2,7 +2,6 @@ package raisetech.StudentManagement.controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -62,12 +61,7 @@ public class StudentController {
       );
       return "/registerStudent";
     }
-
-    Student registerStudent = new Student(UUID.randomUUID().toString(), studentForm.getStudent());
-    StudentCourses registerStudentCourses = new StudentCourses(UUID.randomUUID().toString(),
-        studentForm.getStudent(), studentForm.getStudentCourses());
-
-    service.registerStudent(registerStudent, registerStudentCourses);
+    service.registerStudent(studentForm);
     return "redirect:/studentList";
   }
 }

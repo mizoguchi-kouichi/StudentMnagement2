@@ -1,6 +1,5 @@
 package raisetech.StudentManagement.repositry;
 
-import java.time.LocalDate;
 import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -28,6 +27,5 @@ public interface StudentRepository {
       "INSERT INTO students_courses (id, student_id, course_name, course_start_date, expected_end_date_of_the_course) VALUES "
           + "(#{id},#{studentId}, #{courseName}, #{courseStartDate}, #{expectedEndDateOfTheCourse})"
   )
-  void registerStudentCourse(String id, String studentId, String courseName,
-      LocalDate courseStartDate, LocalDate expectedEndDateOfTheCourse);
+  void registerStudentCourse(StudentCourses studentCourses);
 }
