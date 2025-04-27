@@ -8,10 +8,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.domain.StudentForm;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -36,17 +38,20 @@ public class StudentController {
     return "studentList";
   }
 
-  @GetMapping("/studentsCoursesList")
-  public List<StudentCourses> getStudentcoursesList() {
-    return service.getStudentCourses();
-  }
-
   @GetMapping("newStudent")
   public String newStudent(Model model) {
     StudentForm studentForm = new StudentForm();
     model.addAttribute("studentForm", studentForm);
     return "registerStudent";
   }
+
+  @GetMapping("/student/{id}")
+  public String getStudentById(@PathVariable String id, Model model) {
+    StudentDetail studentDetail = service.getStudentDetailById(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
+  }
+
 
   @PostMapping("/registerStudent")
   public String registerStudent(@Valid @ModelAttribute StudentForm studentForm,
@@ -62,6 +67,24 @@ public class StudentController {
       return "/registerStudent";
     }
     service.registerStudent(studentForm);
+    return "redirect:/studentList";
+  }
+
+  @PostMapping("/updateStudent")
+  public String updateStudent(@Valid @ModelAttribute StudentDetail studentDetail,
+      BindingResult result) {
+
+    if (result.hasErrors()) {
+      System.out.println("バリデーションエラーあり");
+      result.getFieldErrors().forEach(error -> {
+            System.out.println("エラー項目：" + error.getField());
+            System.out.println("メッセージ：" + error.getDefaultMessage());
+          }
+      );
+      return "/updateStudent";
+    }
+
+    service.updateStudent(studentDetail);
     return "redirect:/studentList";
   }
 }
