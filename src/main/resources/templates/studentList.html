@@ -31,7 +31,10 @@
   <tbody>
   <tr th:each="studentDetails : ${studentList}">
     <td th:text="${studentDetails.student.id}">1</td>
-    <td th:text="${studentDetails.student.name}">山田太郎</td>
+    <td>
+      <a th:href="@{/student/{id}(id=${studentDetails.student.id})}"
+         th:text="${studentDetails.student.name}">山田太郎</a>
+    </td>
     <td th:text="${studentDetails.student.kana}">ヤマダタロウ</td>
     <td th:text="${studentDetails.student.nickname}">タロー</td>
     <td th:text="${studentDetails.student.email}">taro@icloud.com</td>
@@ -65,4 +68,3 @@
 </table>
 </body>
 </html>
-
