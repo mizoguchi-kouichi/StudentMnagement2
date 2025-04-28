@@ -1,6 +1,9 @@
 package raisetech.StudentManagement.controller;
 
 import jakarta.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -84,7 +87,15 @@ public class StudentController {
       return "/updateStudent";
     }
 
+    String encodeName = "";
+    try {
+      encodeName = URLEncoder.encode(studentDetail.getStudent().getName(),
+          StandardCharsets.UTF_8.toString());
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("エンコードエラーが発生しました", e);
+    }
+
     service.updateStudent(studentDetail);
-    return "redirect:/studentList";
+    return "redirect:/studentList?updated=true&name=" + encodeName;
   }
 }

@@ -7,10 +7,42 @@
     ul {
       list-style: none;
     }
+
+    .alert {
+    background-color: #d4edda; /* うすい緑 */
+    color: #155724; /* 文字は濃い緑 */
+    padding: 1em;
+    margin-bottom: 1em;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 19%; /* 画面の幅の50%だけにする */
+
+  }
+
+  .alert button {
+    background: none;
+    border: none;
+    font-size: 1.2em;
+    color: #155724;
+    cursor: pointer;
+  }
+
   </style>
 </head>
 <body>
 <h1>受講生一覧</h1>
+
+<div th:if="${param.updated}" class="alert" id="updateMessage">
+  <span
+      th:text="${param.name} + ' さんの学生情報を更新しました！'">○○さんの学生情報を更新しました！</span>
+  <button type="button" onclick="closeMessage()">×</button>
+</div>
+
+
 <table border="1">
   <thead>
   <tr>
@@ -64,6 +96,16 @@
     </td>
     <td th:text="${studentDetails.student.remark}">特になし</td>
   </tr>
+
+  <script>
+    function closeMessage() {
+      const message = document.getElementById('updateMessage');
+      if (message) {
+        message.style.display = 'none';
+      }
+    }
+  </script>
+
   </tbody>
 </table>
 </body>
