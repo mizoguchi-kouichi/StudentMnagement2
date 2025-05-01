@@ -1,6 +1,9 @@
 package raisetech.StudentManagement.controller;
 
 import jakarta.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourses;
+import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.domain.StudentForm;
 import raisetech.StudentManagement.service.StudentService;
 
@@ -36,17 +41,20 @@ public class StudentController {
     return "studentList";
   }
 
-  @GetMapping("/studentsCoursesList")
-  public List<StudentCourses> getStudentcoursesList() {
-    return service.getStudentCourses();
-  }
-
   @GetMapping("newStudent")
   public String newStudent(Model model) {
     StudentForm studentForm = new StudentForm();
     model.addAttribute("studentForm", studentForm);
     return "registerStudent";
   }
+
+  @GetMapping("/student/{id}")
+  public String getStudentById(@PathVariable String id, Model model) {
+    StudentDetail studentDetail = service.getStudentDetailById(id);
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudent";
+  }
+
 
   @PostMapping("/registerStudent")
   public String registerStudent(@Valid @ModelAttribute StudentForm studentForm,
@@ -63,5 +71,31 @@ public class StudentController {
     }
     service.registerStudent(studentForm);
     return "redirect:/studentList";
+  }
+
+  @PostMapping("/updateStudent")
+  public String updateStudent(@Valid @ModelAttribute StudentDetail studentDetail,
+      BindingResult result) {
+
+    if (result.hasErrors()) {
+      System.out.println("バリデーションエラーあり");
+      result.getFieldErrors().forEach(error -> {
+            System.out.println("エラー項目：" + error.getField());
+            System.out.println("メッセージ：" + error.getDefaultMessage());
+          }
+      );
+      return "/updateStudent";
+    }
+
+    String encodeName = "";
+    try {
+      encodeName = URLEncoder.encode(studentDetail.getStudent().getName(),
+          StandardCharsets.UTF_8.toString());
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException("エンコードエラーが発生しました", e);
+    }
+
+    service.updateStudent(studentDetail);
+    return "redirect:/studentList?updated=true&name=" + encodeName;
   }
 }
